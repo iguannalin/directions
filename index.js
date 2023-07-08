@@ -27,7 +27,7 @@ let current;
 window.addEventListener("load", () => {
   function findClosest(arr = [], pos, positive = true) { // array to search in, position value, move in positive direction if true
     let closestDiff = 99999;
-    let closestIndex;
+    let closestIndex = indexes.languages[indexes.languages.length-1];
     arr.forEach((n, i) => {
       if (positive && n > pos && (n-pos < closestDiff)) {
         closestDiff = n-pos;
@@ -42,7 +42,7 @@ window.addEventListener("load", () => {
   }
   function moveCurrent(e) {
     let moveTo = e.target.id;
-    let index = 0;
+    let index;
     switch (moveTo) {
       case "north":
         index = findClosest(indexes.latitudes, current.latitude);
