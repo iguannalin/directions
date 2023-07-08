@@ -8,27 +8,12 @@ let indexes = {
   "longitudes": [
       17, 20, 45, 45, 90.5,-76, 47.5,-4, 90, 28, 122, 18, 25, 98, 30, 105,-95, 15.5, 15.5, 10, 5.75, 26,-7, 26, 2, 43.5, 9, 22, 77,-72.4167,-2, 166.6, 34.75, 77, 20,-18, 120,-8, 12.8333, 138, 120, 77, 147, 105, 127.5, 35, 75, 105, 24, 6.1667, 22, 112.5, 14.5833,-2, 174, 77,-88.75, 84, 10, 7.4,-95, 65, 53, 20,-8, 77, 25, 25, 100,-172.3333, 9,-2,-2, 21, 30, 70, 81, 19.5, 15, 49, 28.5,-102, 120, 38, 15, 122, 71, 77, 77, 100, 147, 33, 178, 32, 70, 105, 106,-2, 24, 34.75, 2.25, 24,-97
     ]
-}
-// {
-//   "directions": [
-//       "North",
-//       "East",
-//       "South",
-//       "West"
-//   ],
-//   "country": "United States",
-//   "latitude": 38, (x)
-//   "longitude": -97 (y)
-// }
+};
 let data;
 const directions = ["north","east","south","west"];
 let currentLang = "English";
 let current;
 window.addEventListener("load", () => {
-  fetch('data.json').then((d) => d.json()).then((r) => {
-    data = r;
-    setDirections();
-  });
   function findClosest(arr = [], pos, positive = true) { // array to search in, position value, move in positive direction if true
     let closestDiff = 99999;
     let closestIndex = indexes.languages[indexes.languages.length-1];
@@ -41,9 +26,9 @@ window.addEventListener("load", () => {
         closestIndex = i;
       }
     });
-    // console.log({arr, pos, positive, "found": arr[closestIndex]});
     return closestIndex;
   }
+
   function moveCurrent(e) {
     let moveTo = e.target.id;
     let index;
@@ -60,14 +45,17 @@ window.addEventListener("load", () => {
       case "west":
         index = findClosest(indexes.longitudes, current.longitude, false);
         break;
+      default:
+        return;
     }
     currentLang = indexes.languages[index];
     current = data[currentLang];
-    console.log(current);
+    console.log(currentLang);
     setDirections();
   }
 
   function setDirections() {
+    if (!currentLang || !data) return;
     current = data[currentLang];
     directions.forEach((dir, index) => {
       const elem = document.getElementById(dir);
@@ -75,6 +63,12 @@ window.addEventListener("load", () => {
       elem.onclick = moveCurrent;
     });
   }
+
+  fetch('data.json').then((d) => d.json()).then((r) => {
+    data = r;
+    setDirections();
+  });
+  
 });
 
 // country geolocation data from:
