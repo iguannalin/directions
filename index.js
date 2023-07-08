@@ -20,6 +20,7 @@ let indexes = {
 //   "latitude": 38, (x)
 //   "longitude": -97 (y)
 // }
+let data;
 fetch('data.json').then((d) => d.json()).then((r) => data = r);
 const directions = ["north","east","south","west"];
 let currentLang = "English";
