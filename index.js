@@ -21,11 +21,14 @@ let indexes = {
 //   "longitude": -97 (y)
 // }
 let data;
-fetch('data.json').then((d) => d.json()).then((r) => data = r);
 const directions = ["north","east","south","west"];
 let currentLang = "English";
 let current;
 window.addEventListener("load", () => {
+  fetch('data.json').then((d) => d.json()).then((r) => {
+    data = r;
+    setDirections();
+  });
   function findClosest(arr = [], pos, positive = true) { // array to search in, position value, move in positive direction if true
     let closestDiff = 99999;
     let closestIndex = indexes.languages[indexes.languages.length-1];
@@ -72,7 +75,6 @@ window.addEventListener("load", () => {
       elem.onclick = moveCurrent;
     });
   }
-  setDirections();
 });
 
 // country geolocation data from:
